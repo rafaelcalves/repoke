@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 import static com.repoke.credentials.Credentials.*;
 
@@ -34,10 +36,21 @@ public class Repoke {
 
         driver.get("https://www.facebook.com/pokes/");
 
-        List<WebElement> cutuqueDeVolta = driver.findElements(By.xpath("//*[contains(text(), 'Cutuque de volta')]"));
+        List<WebElement> cutuqueDeVolta = null;
 
-        for (WebElement element:cutuqueDeVolta) {
-            element.click();
+        while(1==1){
+            try {
+                cutuqueDeVolta = driver.findElements(By.xpath("//*[contains(text(), 'Cutuque de volta')]"));
+            } catch(NoSuchElementException e){
+                System.out.print("No pokes");
+            }
+
+            if(!cutuqueDeVolta.isEmpty()) {
+                for (WebElement element : cutuqueDeVolta) {
+                    element.click();
+                }
+            }
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         }
     }
 
