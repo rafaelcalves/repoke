@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,9 +19,12 @@ public class Repoke {
 
     @Test
     public void prepare() {
-        WebDriver driver = new ChromeDriver();
 
+        ChromeOptions options = new ChromeOptions();
 
+        options.addArguments("--disable-notifications");
+
+        WebDriver driver = new ChromeDriver(options);
 
         driver.get("http:\\www.facebook.com");
 
@@ -45,12 +49,15 @@ public class Repoke {
                 System.out.print("No pokes");
             }
 
+            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
             if(!cutuqueDeVolta.isEmpty()) {
                 for (WebElement element : cutuqueDeVolta) {
                     element.click();
                 }
             }
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            cutuqueDeVolta = null;
+            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         }
     }
 
