@@ -1,72 +1,44 @@
 package com.repoke;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static com.repoke.credentials.Credentials.*;
 
 public class Repoke {
     private String testUrl;
     private WebDriver driver;
 
-    @Before
-    public void prepare() {
-        //setup chromedriver
-        System.setProperty(
-                "webdriver.chrome.driver",
-                "webdriver/chromedriver");
-
-        testUrl = "https://leftstick.github.io/";
-
-        // Create a new instance of the Chrome driver
-        // Notice that the remainder of the code relies on the interface,
-        // not the implementation.
-        driver = new ChromeDriver();
-
-        //maximize window
-        driver.manage().window().maximize();
-
-        // And now use this to visit myBlog
-        // Alternatively the same thing can be done like this
-        // driver.navigate().to(testUrl);
-        driver.get(testUrl);
-    }
-
     @Test
-    public void testTitle() throws IOException {
-
-        // Find elements by attribute lang="READ_MORE_BTN"
-        List<WebElement> elements = driver
-                .findElements(By.cssSelector("[lang=\"READ_MORE_BTN\"]"));
-
-        //Click the selected button
-        elements.get(0).click();
+    public void prepare() {
+        WebDriver driver = new ChromeDriver();
 
 
-        assertTrue("The page title should be chagned as expected",
-                (new WebDriverWait(driver, 5))
-                        .until(new ExpectedCondition<Boolean>() {
-                            public Boolean apply(WebDriver d) {
-                                return d.getTitle().equals("我眼中软件工程人员该有的常识");
-                            }
-                        })
-        );
 
-    }
+        driver.get("http:\\www.facebook.com");
 
-    @After
-    public void teardown() throws IOException {
-        driver.quit();
+
+        WebElement element1 = driver.findElement(By.id("email"));
+        element1.sendKeys(email);
+
+        WebElement element2 = driver.findElement(By.id("pass"));
+        element2.sendKeys(password);
+
+        WebElement element3 = driver.findElement(By.id("u_0_2"));
+        element3.click();
+
+        driver.get("https://www.facebook.com/pokes/");
+
+        List<WebElement> cutuqueDeVolta = driver.findElements(By.xpath("//*[contains(text(), 'Cutuque de volta')]"));
+
+        for (WebElement element:cutuqueDeVolta) {
+            element.click();
+        }
     }
 
 }
