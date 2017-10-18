@@ -35,27 +35,28 @@ public class Repoke {
         WebElement element2 = driver.findElement(By.id("pass"));
         element2.sendKeys(password);
 
-        WebElement element3 = driver.findElement(By.id("u_0_2"));
+        WebElement element3 = driver.findElement(By.xpath("//input[@type='submit']"));
         element3.click();
 
         driver.get("https://www.facebook.com/pokes/");
 
-        List<WebElement> cutuqueDeVolta = null;
+        WebElement cutuqueDeVolta = null;
+        WebElement lastClicked = null;
 
         while(1==1){
             try {
-                cutuqueDeVolta = driver.findElements(By.xpath("//*[contains(text(), 'Cutuque de volta')]"));
-            } catch(NoSuchElementException e){
+                cutuqueDeVolta = driver.findElement(By.xpath("//a[contains(text(), 'Cutuque de volta')]"));
+            } catch(Exception e){
                 System.out.print("No pokes");
             }
 
             driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
-            if(!cutuqueDeVolta.isEmpty()) {
-                for (WebElement element : cutuqueDeVolta) {
-                    element.click();
-                }
+            if(cutuqueDeVolta != null && !cutuqueDeVolta.equals(lastClicked)) {
+                    cutuqueDeVolta.click();
+                    lastClicked = cutuqueDeVolta;
             }
+
             cutuqueDeVolta = null;
             driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         }
